@@ -9,8 +9,9 @@
 3. [Preprocessing](#preprocessing)
 4. [Segmentation](#segmentation)
 5. [Post-processing](#post-processing)
-6. [Results](#results)
-7. [License](#license)
+6. [Spark Integration](#spark-integration)
+7. [Results](#results)
+8. [License](#license)
 
 ## Introduction
 
@@ -96,8 +97,21 @@ After obtaining the mask, the further process was quite simple. The images (RGB,
 
 4. The results obtained for each image were then stored and statistically analyzed using Python's pandas library.
 
+## Spark Integration
+
+The project also includes a version that integrates Apache Spark for distributed processing. The main differences in the Spark version are:
+
+1. Spark is used for data preprocessing and structuring. The image data is loaded into a Spark DataFrame, and transformations are applied using Spark SQL and UDFs (User-Defined Functions).
+
+2. During training and evaluation, Spark is used to calculate the AUC-ROC metric. The model predictions and ground truth masks are collected and converted into a Spark DataFrame, and the "BinaryClassificationEvaluator" is used to calculate the AUC-ROC.
+
+3. In the post-processing step, Spark is used to parallelize the processing of result images and the calculation of various metrics such as IoU, object counts, roof areas, and solar panel estimations. The results are collected into a Spark DataFrame and saved as a CSV file.
+
+The Spark integration allows for distributed processing of the data and can handle larger datasets more efficiently compared to the non-Spark version.
+
 ## Results
 
+Results are shown in this table:
 ![Results statistics](results.png)
 
 ## License
